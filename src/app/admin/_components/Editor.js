@@ -18,7 +18,7 @@ const Editor = ({value, initValue, post}) => {
         fetch('/api/article/'+post.slug, {
           method: 'PUT',
           body: JSON.stringify({
-            data: content
+            content: content
           })
         })
         setContent(value);

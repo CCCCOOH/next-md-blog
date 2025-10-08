@@ -11,10 +11,10 @@ export default function HomePage() {
       <Title>Blog Posts</Title>
       <ul>
         {posts.map((post) => (
-          <li key={post.slug} className='m-2'>
+          <li key={post.uuid} className='m-2'>
             <Card>
-              <Link href={`/posts/${post.slug}`}>
-                <span className='hover:text-slate-500'>{post.slug}</span>
+              <Link href={`/posts/${post.uuid}`}>
+                <span className='hover:text-slate-500'>{post.title}</span>
               </Link>
               <p>{post.date}</p>
             </Card>

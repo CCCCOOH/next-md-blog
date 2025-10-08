@@ -8,20 +8,21 @@ const md = new MarkdownIt();
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
-// 获取所有posts
+// 获取所有 posts
   return posts.map((post) => ({
-    slug: post.slug,
+    uuid: post.uuid,
   }));
+  // return => [uuid1, uuid2, ...]
 }
 
 // 根据slug筛选出特定的文章
-async function fetchPost(slug) {
+async function fetchPost(uuid) {
   const posts = getAllPosts();
-  return posts.find((post) => post.slug === slug);
+  return posts.find((post) => post.uuid === uuid);
 }
 
 export default async function Post({ params }) {
-  const post = await fetchPost(params.slug); // 找到特定的文章
+  const post = await fetchPost(params.uuid); // 找到特定的文章
 
   if (!post) {
     notFound(); // 如果找不到文章就返回NotFound
@@ -31,7 +32,7 @@ export default async function Post({ params }) {
 
   return (
     <article>
-      <h1>{post.title}</h1>
+      <h1 className='text-2xl mt-10 text-center'>{post.title}</h1>
       <p className="post-meta">{post.date}</p>
       <div className='bg-white p-10'>
         <div className="markdown-body" dangerouslySetInnerHTML={{ __html: htmlContent }} />

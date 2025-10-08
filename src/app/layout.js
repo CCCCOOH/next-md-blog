@@ -1,5 +1,6 @@
 import Navigation from "@/components/Navigation";
 import './globals.css';
+import { Toaster } from "sonner";
 
 export const metadata = {
   title: "Create Next App",
@@ -12,7 +13,9 @@ export default function RootLayout({ children }) {
       <body
         className="w-full h-full"
       >
+        <Toaster />
         <Navigation />
+        
         <div className="flex justify-center">
           <div className="w-[800px] h-full">
             {children}

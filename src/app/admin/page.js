@@ -18,9 +18,9 @@ function AdminHome() {
       <Card>
         <ul>
           {posts.map((post) => (
-            <li key={post.slug} className='m-2 flex justify-between'>
-              <Link href={`/admin/edit/${post.slug}`}>
-                <span className='hover:text-slate-500'>{post.slug}</span>
+            <li key={post.uuid} className='m-2 flex justify-between'>
+              <Link href={`/admin/edit/${post.uuid}`}>
+                <span className='hover:text-slate-500'>{post.title}</span>
               </Link>
               <DeleteButton post={post} />
             </li>

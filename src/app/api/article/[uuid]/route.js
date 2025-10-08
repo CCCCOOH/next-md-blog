@@ -2,8 +2,8 @@ import { deletePost, getAllPosts, updatePost } from "@/lib/posts";
 import { NextResponse } from "next/server";
 
 export async function DELETE(req, {params}) {
-  const {slug} = await params;
-  deletePost(slug);
+  const {uuid} = await params;
+  deletePost(uuid);
   try {
     return NextResponse.json({
       success: true,
@@ -20,11 +20,11 @@ export async function DELETE(req, {params}) {
 
 export async function PUT(req, {params}) {
   try {
-    const {slug} = params;
-    const {data, title} = await req.json();
+    const {uuid} = await params;
+    const data = await req.json();
     // data 修改文章内容
     // title 修改文件名
-    updatePost(slug, data, title);
+    updatePost(uuid, data);
     return NextResponse.json({
       success: true,
       msg: '更新成功',
