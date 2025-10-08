@@ -15,7 +15,7 @@ const Editor = ({value, initValue, post}) => {
     <MarkdownEditor
       value={content}
       onChange={(value, viewUpdate) => {
-        fetch('/api/article/'+post.slug, {
+        fetch('/api/article/'+post.uuid, {
           method: 'PUT',
           body: JSON.stringify({
             content: content

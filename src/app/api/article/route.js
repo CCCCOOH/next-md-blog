@@ -1,16 +1,17 @@
 import { addPost } from "@/lib/posts";
 import { NextResponse } from "next/server";
 
+// 添加文章API
 export async function POST(req) {
   try {
-    const {slug} = await req.json();
-    if (slug.trim() === '') {
+    const {title} = await req.json();
+    if (title.trim() === '') {
       return NextResponse.json({
         success: false,
         msg: '添加失败,不能为空'
       })
     }
-    const res = addPost(slug);
+    const res = addPost(title);
     if (res) {
       // res为文件操作API返回的添加结果
       return NextResponse.json({

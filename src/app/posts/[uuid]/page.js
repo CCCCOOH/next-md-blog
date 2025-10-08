@@ -32,7 +32,7 @@ export default async function Post({ params }) {
 
   return (
     <article>
-      <h1 className='text-2xl mt-10 text-center'>{post.title}</h1>
+      <h1 className='text-2xl my-10 text-center'>{post.title}</h1>
       <p className="post-meta">{post.date}</p>
       <div className='bg-white p-10'>
         <div className="markdown-body" dangerouslySetInnerHTML={{ __html: htmlContent }} />

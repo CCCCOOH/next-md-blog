@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { AlertCircleIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 function AddDialog() {
   const [open, setOpen] = useState(false);
@@ -78,8 +79,10 @@ function AddDialog() {
               fetch('/api/article', {
                 method: "POST",
                 body: JSON.stringify({
-                  slug: title
+                  title: title
                 })
+              }).then(res => {
+                toast('添加成功！')
               })
               setOpen(false);
             }

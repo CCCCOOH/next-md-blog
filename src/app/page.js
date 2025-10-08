@@ -9,9 +9,9 @@ export default function HomePage() {
   return (
     <div>
       <Title>Blog Posts</Title>
-      <ul>
+      <ul className='grid gap-5 grid-cols-2 w-full'>
         {posts.map((post) => (
-          <li key={post.uuid} className='m-2'>
+          <li key={post.uuid}>
             <Card>
               <Link href={`/posts/${post.uuid}`}>
                 <span className='hover:text-slate-500'>{post.title}</span>

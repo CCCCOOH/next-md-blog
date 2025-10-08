@@ -11,14 +11,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { useState } from 'react'
+import { toast } from 'sonner'
 
 function DeleteButton({post}) {
+  const [open, setOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
-          删除
-        </Button>
+        <Button>删除</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
@@ -34,10 +35,13 @@ function DeleteButton({post}) {
             </Button>
           </DialogClose>
           <Button onClick={() => {
-          fetch('/api/article/'+post.slug, {
-            method: 'delete'
-          })
-        }} type="submit" >确定</Button>
+            setOpen(false);
+            fetch('/api/article/'+post.uuid, {
+              method: 'delete'
+            }).then(res => {
+              toast('删除成功, 不能后悔了哦～')
+            })
+          }} type="submit" >确定</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

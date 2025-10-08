@@ -33,7 +33,7 @@ export function findPost(uuid) {
     const filePath = path.join(postsDirectory, fileName);
     const file = fs.readFileSync(filePath, 'utf8');
     const {data, content} = matter(file);
-    if (data.uuid) {
+    if (data.uuid === uuid) {
       return true;
     } else {
       return false;
@@ -56,7 +56,7 @@ export function deletePost(uuid) {
   const {targetFilePath} = findPost(uuid);
   
   if (targetFilePath) {
-    fs.unlinkSync(targetFilePath);
+    fs.rmSync(targetFilePath);
   } else {
     return false;
   }
