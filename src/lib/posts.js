@@ -41,12 +41,13 @@ export function findPost(uuid) {
   })
   if (targetFileName) {
     const targetFilePath = path.join(postsDirectory, targetFileName);
-    return {targetFileName, targetFilePath};
+    const targetFile = readFileSync(targetFilePath, 'utf8');
+    return {targetFileName, targetFilePath, targetFile};
   } else {
     return false;
   }
 }
-// findPost => {targetFileName, targetFilePath}
+// findPost => {targetFileName, targetFilePath, targetFile}
 
 // 删除uuid对应的文章
 export function deletePost(uuid) {
@@ -67,6 +68,9 @@ export function addPost(title) {
   const tem_matter_obj = matter("");  // 将""转为一个matter对象
   tem_matter_obj.data.uuid = randomUUID();
   tem_matter_obj.data.title = title;
+  tem_matter_obj.data.createdTime = new Date();
+  tem_matter_obj.data.updatedTime = new Date();
+
   
   const st = matter.stringify(tem_matter_obj.content, tem_matter_obj.data);
   
@@ -79,19 +83,32 @@ export async function updatePost(uuid, data) {
   const {title, content} = data;
   
   // title, newContent is from POST body.
-  const {targetFilePath} = findPost(uuid);
-  if (!targetFilePath) return false;
+  const {targetFilePath, targetFile} = findPost(uuid);
+  const {data: targetFileData, content: targetFileContent} = matter(targetFile);
+  
+  if (!targetFilePath) return false; // if can not find this file, exit.
+
   if (title) {
-    const file = fs.readFileSync(targetFilePath);
-    const {data: frontmatter, content} = matter(file);
-    frontmatter.title = title;
-    const st = matter.stringify(content, frontmatter);
-    writeFileSync(targetFilePath, st);
+    targetFileData.title = title;
+    updateFileData(uuid, targetFileData);
   }
   if (content) {
-    const file = fs.readFileSync(targetFilePath);
-    const {data: frontmatter} = matter(file); // the content from the file
-    const st = matter.stringify(content, frontmatter);
-    writeFileSync(targetFilePath, st);
+    updateFileContent(uuid, content);
   }
+}
+
+function updateFileData(uuid, data) {
+  const {targetFilePath} = findPost(uuid);  // find the file
+  const file = fs.readFileSync(targetFilePath);
+  const {content} = matter(file); // stay content and update frontmatter
+  const st = matter.stringify(content, data);
+  writeFileSync(targetFilePath, st);
+}
+
+function updateFileContent(uuid, newContent) {
+  const {targetFilePath} = findPost(uuid);
+  const file = fs.readFileSync(targetFilePath);
+  const {data} = matter(file); // get the content from the file
+  const st = matter.stringify(newContent, data); // 保持frontmatter不变，修改newContent
+  writeFileSync(targetFilePath, st); // write back file
 }
